@@ -1,0 +1,190 @@
+--- GENERATED OUTLINE ---
+{
+  "topic": "Bubble Sort Visualization",
+  "mode": "education",
+  "steps": [
+    {
+      "action": "draw shape",
+      "shape": "square",
+      "scale": 0.5,
+      "label": "5",
+      "position": "LEFT"
+    },
+    {
+      "action": "draw shape",
+      "shape": "square",
+      "scale": 0.3,
+      "label": "2",
+      "position": "CENTER"
+    },
+    {
+      "action": "draw shape",
+      "shape": "square",
+      "scale": 0.7,
+      "label": "8",
+      "position": "RIGHT"
+    },
+    {
+      "action": "show text",
+      "text": "Compare the first two bars (5 and 2).",
+      "anchor": "below shape"
+    },
+    {
+      "action": "wait",
+      "duration": "2s"
+    },
+    {
+      "action": "show text",
+      "text": "Since 5 > 2, swap them.",
+      "anchor": "below shape"
+    },
+    {
+      "action": "transform",
+      "target": "LEFT",
+      "to": "CENTER"
+    },
+    {
+      "action": "transform",
+      "target": "CENTER",
+      "to": "LEFT"
+    },
+    {
+      "action": "wait",
+      "duration": "2s"
+    },
+    {
+      "action": "show text",
+      "text": "Compare the next two bars (5 and 8).",
+      "anchor": "below shape"
+    },
+    {
+      "action": "wait",
+      "duration": "2s"
+    },
+    {
+      "action": "show text",
+      "text": "Since 5 < 8, no swap is needed.",
+      "anchor": "below shape"
+    },
+    {
+      "action": "wait",
+      "duration": "2s"
+    },
+    {
+      "action": "show text",
+      "text": "The largest element (8) is now at the end.",
+      "anchor": "below shape"
+    },
+    {
+      "action": "wait",
+      "duration": "2s"
+    },
+    {
+      "action": "show text",
+      "text": "Repeat for the remaining unsorted portion.",
+      "anchor": "below shape"
+    },
+    {
+      "action": "wait",
+      "duration": "2s"
+    },
+    {
+      "action": "show text",
+      "text": "Compare 2 and 5.",
+      "anchor": "below shape"
+    },
+    {
+      "action": "wait",
+      "duration": "2s"
+    },
+    {
+      "action": "show text",
+      "text": "Since 2 < 5, no swap is needed.",
+      "anchor": "below shape"
+    },
+    {
+      "action": "wait",
+      "duration": "2s"
+    },
+    {
+      "action": "show text",
+      "text": "The array is now sorted: 2, 5, 8.",
+      "anchor": "below shape"
+    }
+  ]
+}
+
+--- GENERATED CODE ---
+
+from manim import *
+
+class GenScene(Scene):
+    def construct(self):
+        square_left = Square().scale(0.5).to_edge(LEFT)
+        text_left = Text("5").move_to(square_left.get_center())
+        self.play(Create(square_left), Write(text_left))
+
+        square_center = Square().scale(0.3).to_edge(UP*0.01)
+        text_center = Text("2").move_to(square_center.get_center())
+        self.play(Create(square_center), Write(text_center))
+
+        square_right = Square().scale(0.7).to_edge(RIGHT)
+        text_right = Text("8").move_to(square_right.get_center())
+        self.play(Create(square_right), Write(text_right))
+
+        compare_text_1 = Text("Compare the first two bars (5 and 2).").to_edge(DOWN)
+        self.play(Write(compare_text_1))
+        self.wait(2)
+
+        swap_text = Text("Since 5 > 2, swap them.").to_edge(DOWN)
+        self.play(Transform(compare_text_1, swap_text))
+
+        self.play(
+            square_left.animate.move_to(square_center.get_center()),
+            text_left.animate.move_to(square_center.get_center())
+        )
+        self.play(
+            square_center.animate.move_to(square_left.get_center()),
+            text_center.animate.move_to(square_left.get_center())
+        )
+
+        self.wait(2)
+
+        compare_text_2 = Text("Compare the next two bars (5 and 8).").to_edge(DOWN)
+        self.play(Transform(swap_text, compare_text_2))
+
+        self.wait(2)
+
+        no_swap_text_1 = Text("Since 5 < 8, no swap is needed.").to_edge(DOWN)
+        self.play(Transform(compare_text_2, no_swap_text_1))
+
+        self.wait(2)
+
+        largest_end_text = Text("The largest element (8) is now at the end.").to_edge(DOWN)
+        self.play(Transform(no_swap_text_1, largest_end_text))
+
+        self.wait(2)
+
+        repeat_text = Text("Repeat for the remaining unsorted portion.").to_edge(DOWN)
+        self.play(Transform(largest_end_text, repeat_text))
+
+        self.wait(2)
+
+        compare_text_3 = Text("Compare 2 and 5.").to_edge(DOWN)
+        self.play(Transform(repeat_text, compare_text_3))
+
+        self.wait(2)
+
+        no_swap_text_2 = Text("Since 2 < 5, no swap is needed.").to_edge(DOWN)
+        self.play(Transform(compare_text_3, no_swap_text_2))
+
+        self.wait(2)
+
+        sorted_text = Text("The array is now sorted: 2, 5, 8.").to_edge(DOWN)
+        self.play(Transform(no_swap_text_2, sorted_text))
+
+        self.wait()
+
+
+--- VIDEO URL ---
+/media/videos/scene_62e23cbb-0917-4fcb-8cc7-793aeea60a26/720p30/GenScene.mp4

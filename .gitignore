@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Environment Variables
+.env
+
+# Manim / Media Output
+media/
+backend/media/
+backend/images/
+backend/videos/
+backend/texts/
+
+# Logs and Debug Output
+*.log
+backend/error.log
+backend/reproduction_output.txt
+backend/models.txt
+backend/models_clean.txt
+
+# Generated Manim Scripts
+backend/scene_*.py
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
