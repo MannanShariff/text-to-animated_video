@@ -4,3 +4,5 @@ manim
 google-generativeai
 pydantic
 python-dotenv
+gTTS
+moviepy

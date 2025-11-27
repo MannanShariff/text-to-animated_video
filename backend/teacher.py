@@ -20,18 +20,9 @@ Your output must be a valid JSON object with the following structure:
       "label": "optional label",
       "position": "optional position (e.g., LEFT, RIGHT, UP, DOWN)"
     },
-    {
-      "action": "show text",
-      "text": "The text to display",
-      "anchor": "below shape|above shape|center"
-    },
-    {
-      "action": "transform",
-      "target": "id of previous object",
-      "to": "new shape or state"
-    }
-    // Add more steps as needed to explain the concept clearly.
-  ]
+    // ... more steps
+  ],
+  "narration": "A short, simple paragraph (3-6 sentences) explaining the concept shown in the animation. Use simple English suitable for beginners."
 }
 
 Rules:

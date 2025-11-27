@@ -11,6 +11,7 @@ load_dotenv()
 from teacher import generate_outline
 from compiler import generate_manim_code
 from runner import render_scene
+from narrator import generate_narration_audio
 
 app = FastAPI()
 
@@ -26,7 +27,7 @@ app.mount("/media", StaticFiles(directory=MEDIA_DIR), name="media")
 # Serve static frontend files
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-class GenerateRequest(BaseModel):
+class PromptRequest(BaseModel):
     prompt: str
 
 @app.get("/")
@@ -34,21 +35,28 @@ async def read_index():
     return FileResponse(os.path.join(STATIC_DIR, 'index.html'))
 
 @app.post("/generate")
-async def generate_video(request: GenerateRequest):
+async def generate_video(request: PromptRequest):
     try:
         # 1. Teacher Brain: Generate Outline
         outline = await generate_outline(request.prompt)
         
-        # 2. Compiler Brain: Generate Manim Code
-        code = await generate_manim_code(outline)
+        # 2. Narrator: Generate Audio FIRST
+        narration_text = outline.get("narration")
+        audio_path = None
+        if narration_text:
+            print(f"Generating audio for: {narration_text}")
+            # Generate audio in BASE_DIR so it is accessible to the script
+            audio_path = generate_narration_audio(narration_text)
+            if audio_path:
+                print(f"Audio generated at: {audio_path}")
         
-        # 3. Runner: Execute Manim
+        # 3. Compiler Brain: Generate Manim Code (with audio path)
+        code = await generate_manim_code(outline, audio_path=audio_path)
+        
+        # 4. Runner: Execute Manim
         video_path = await render_scene(code)
         
         # Convert absolute path to relative URL for serving
-        # video_path is absolute path to the generated mp4
-        # We serve MEDIA_DIR at /media
-        
         relative_to_media = os.path.relpath(video_path, start=MEDIA_DIR)
         video_url = f"/media/{relative_to_media}".replace("\\", "/")
         
@@ -56,7 +64,8 @@ async def generate_video(request: GenerateRequest):
             "status": "ok",
             "video_url": video_url,
             "outline": outline,
-            "code": code
+            "code": code,
+            "narration": narration_text
         }
     except Exception as e:
         error_msg = str(e)
